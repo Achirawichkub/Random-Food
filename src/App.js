@@ -253,17 +253,75 @@
 // };
 
 // export default App;
-import React from 'react';
-import SpinFood from './components/spin'; 
-import "bootstrap/dist/css/bootstrap.css";
 
+
+// import React from 'react';
+// import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+// import Spin from './components/spin';
+// import EditMenu from './components/edit-menu';
+
+// function App() {
+//   return (
+//     <Router>
+//       <div>
+//         <nav>
+//           <ul>
+//             <li>
+//               <Link to="/">สุ่มเมนูอาหาร</Link>
+//             </li>
+//             <li>
+//               <Link to="/edit-menu">แก้ไขเมนูอาหาร</Link>
+//             </li>
+//           </ul>
+//         </nav>
+
+//         <Routes>
+//           <Route path="/" element={<Spin />} />
+//           <Route path="/edit-menu" element={<EditMenu />} />
+//         </Routes>
+//       </div>
+//     </Router>
+//   );
+// }
+
+// export default App;
+
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import Spin from './components/spin';
+import EditMenu from './components/edit-menu';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
+  const [menu, setMenu] = useState(['ข้าวผัด', 'ก๋วยเตี๋ยว', 'ส้มตำ']); // เก็บรายการเมนูอาหาร
+
+  // ฟังก์ชันสำหรับอัปเดตเมนู
+  const updateMenu = (newMenu) => {
+    setMenu(newMenu);
+  };
+
   return (
-    <div className="App">
-      <SpinFood />
-    </div>
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">สุ่มเมนูอาหาร</Link>
+            </li>
+            <li>
+              <Link to="/edit-menu">แก้ไขเมนูอาหาร</Link>
+            </li>
+          </ul>
+        </nav>
+
+        <Routes>
+          <Route path="/" element={<Spin menu={menu} />} /> {/* ส่งเมนูไปยัง Spin */}
+          <Route path="/edit-menu" element={<EditMenu menu={menu} updateMenu={updateMenu} />} /> {/* ส่งเมนูและฟังก์ชัน updateMenu ไปยัง EditMenu */}
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
 export default App;
+
